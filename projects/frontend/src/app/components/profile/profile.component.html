@@ -1,0 +1,70 @@
+<div class="h-100 container-fluid bg-light">
+    <!-- nav header bar -->
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Profile</a>
+    </nav>
+    <!-- main -->
+    <div class="border">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <img class="rounded mx-auto d-block" src="../assets/images/profile.jpg" height="200" alt="profile">
+                <div class="row justify-content-end">
+                    <!-- edit profile button -->
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editprofile"
+                        onclick="profileServiceObj.openEditModal()">Edit Profile</button>
+                </div>
+                <!-- profile data renders from backed -->
+                <div id="profileForm">
+                    <!-- <table class="table table-hover table-dark m-5">
+                        <tbody>
+                            <tr>
+                                <th scope="row">User Name</th>
+                                <td>Mark</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Email</th>
+                                <td>Mark</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Full Name</th>
+                                <td>Jacob</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Company</th>
+                                <td>@twitter</td>
+                            </tr>
+                        </tbody>
+                    </table> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- toast -->
+    <div class="toast" data-autohide="false" style="position: absolute; top: 10%; right: 2%; width: 250px;">
+        <div id="thead" class="toast-header">
+            <strong id="thtext" class="mr-auto"></strong>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div id="message" class="toast-body bg-light"></div>
+    </div>
+</div>
+
+
+<!-- edit profile modal -->
+<div class="modal fade" id="editprofile" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Profile</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="editform">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
