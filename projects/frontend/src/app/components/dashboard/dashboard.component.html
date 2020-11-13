@@ -3,16 +3,17 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <p class="navbar-brand home" id="dHead">Dashboard</p>
     </nav>
+    <!-- {{tasks | json}} -->
     <!-- main content -->
     <div class="row w-100 justify-content-md-center" style="min-height: 85%;">
         <!-- status column -->
         <div class="col-lg-3 w-100">
             <ul class="list-group">
                 <li class="list-group-item active">Statistics</li>
-                <li class="list-group-item">All <span class="badge badge-primary" id="allnum"></span></li>
-                <li class="list-group-item">Completed <span class="badge badge-success" id="comnum"></span></li>
-                <li class="list-group-item">Ongoing <span class="badge badge-warning" id="ongng"></span></li>
-                <li class="list-group-item">Upcoming <span class="badge badge-danger" id="upcmg"></span></li>
+                <li class="list-group-item">All <span class="badge badge-primary" id="allnum">5</span></li>
+                <li class="list-group-item">Completed <span class="badge badge-success" id="comnum">2</span></li>
+                <li class="list-group-item">Ongoing <span class="badge badge-warning" id="ongng">2</span></li>
+                <li class="list-group-item">Upcoming <span class="badge badge-danger" id="upcmg">1</span></li>
             </ul>
         </div>
         <!-- task list column -->
@@ -62,6 +63,7 @@
                     <table class="table">
                         <thead class="thead-light">
                             <tr>
+                                <th scope="col">Sl no</th>
                                 <th scope="col">Task</th>
                                 <th scope="col">Priority</th>
                                 <th scope="col">Status</th>
@@ -72,14 +74,29 @@
                         </thead>
                         <!-- renders from the backed -->
                         <tbody id="taskslist">
-                            <!-- <tr>
-                                <td>Do Something</td>
-                                <td>Medium</td>
-                                <td>Ongoing</td>
-                                <td>View</td>
-                                <td>Edit</td>
-                                <td>Delete</td>
-                            </tr> -->
+                            <tr *ngFor="let t of tasks; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{t.task}}</td>
+                                <td>{{t.priority}}</td>
+                                <td>{{t.status}}</td>
+                                <td><a type="button" class="btn text-info" data-toggle="modal" data-target="#viewtask"
+                                        (click)="taskServiceObj.openViewModal(t.tid)">
+                                        View
+                                    </a>
+                                </td>
+                                <td>
+                                    <a type="button" class="btn text-primary" data-toggle="modal"
+                                        data-target="#edittask" (click)="taskServiceObj.openEditModal(t.tid)">
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a type="button" class="btn text-danger" (click)="taskServiceObj.delete(t.tid)"
+                                        data-target="#deletetask">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -167,6 +184,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <!-- view task modal -->
