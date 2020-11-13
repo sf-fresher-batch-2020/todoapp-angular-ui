@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "plan2win",
+=======
+  "name": "angular-project-template",
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -11,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "@angular/animations": "~11.0.0",
     "@angular/common": "~11.0.0",
     "@angular/compiler": "~11.0.0",
@@ -19,22 +24,51 @@
     "@angular/platform-browser": "~11.0.0",
     "@angular/platform-browser-dynamic": "~11.0.0",
     "@angular/router": "~11.0.0",
+=======
+    "@angular/animations": "^10.2.3",
+    "@angular/common": "~10.2.0",
+    "@angular/compiler": "~10.2.0",
+    "@angular/core": "~10.2.0",
+    "@angular/forms": "~10.2.0",
+    "@angular/platform-browser": "~10.2.0",
+    "@angular/platform-browser-dynamic": "~10.2.0",
+    "@angular/router": "~10.2.0",
+    "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1",
+    "lodash": "^4.17.20",
+    "ngx-toastr": "^13.1.0",
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@angular-devkit/build-angular": "~0.1100.1",
     "@angular/cli": "~11.0.1",
     "@angular/compiler-cli": "~11.0.0",
     "@types/jasmine": "~3.6.0",
+=======
+    "@angular-devkit/build-angular": "~0.1002.0",
+    "@angular/cli": "~10.2.0",
+    "@angular/compiler-cli": "~10.2.0",
+    "@types/jasmine": "~3.5.0",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/lodash": "^4.14.165",
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
+<<<<<<< HEAD
     "karma": "~5.1.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
+=======
+    "karma": "~5.0.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~3.0.2",
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",

@@ -135,6 +135,7 @@
     "template-banana-in-box": true,
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
+<<<<<<< HEAD
     "use-pipe-transform-interface": true,
     "directive-selector": [
       true,
@@ -148,5 +149,8 @@
       "app",
       "kebab-case"
     ]
+=======
+    "use-pipe-transform-interface": true
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
   }
 }

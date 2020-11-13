@@ -3,6 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+<<<<<<< HEAD
     "plan2win": {
       "projectType": "application",
       "schematics": {
@@ -12,11 +13,19 @@
       },
       "root": "",
       "sourceRoot": "src",
+=======
+    "frontend": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/frontend",
+      "sourceRoot": "projects/frontend/src",
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+<<<<<<< HEAD
             "outputPath": "dist/plan2win",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -31,18 +40,48 @@
               "src/styles.css"
             ],
             "scripts": []
+=======
+            "outputPath": "dist/frontend",
+            "index": "projects/frontend/src/index.html",
+            "main": "projects/frontend/src/main.ts",
+            "polyfills": "projects/frontend/src/polyfills.ts",
+            "tsConfig": "projects/frontend/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/frontend/src/favicon.ico",
+              "projects/frontend/src/assets"
+            ],
+            "styles": [              
+              "projects/frontend/src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
+<<<<<<< HEAD
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+=======
+                  "replace": "projects/frontend/src/environments/environment.ts",
+                  "with": "projects/frontend/src/environments/environment.prod.ts"
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
                 }
               ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
+<<<<<<< HEAD
+=======
+              "extractCss": true,
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -50,6 +89,7 @@
               "budgets": [
                 {
                   "type": "initial",
+<<<<<<< HEAD
                   "maximumWarning": "500kb",
                   "maximumError": "1mb"
                 },
@@ -57,6 +97,15 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
+=======
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
                 }
               ]
             }
@@ -65,23 +114,36 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+<<<<<<< HEAD
             "browserTarget": "plan2win:build"
           },
           "configurations": {
             "production": {
               "browserTarget": "plan2win:build:production"
+=======
+            "browserTarget": "frontend:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "frontend:build:production"
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
+<<<<<<< HEAD
             "browserTarget": "plan2win:build"
+=======
+            "browserTarget": "frontend:build"
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+<<<<<<< HEAD
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
@@ -92,6 +154,18 @@
             ],
             "styles": [
               "src/styles.css"
+=======
+            "main": "projects/frontend/src/test.ts",
+            "polyfills": "projects/frontend/src/polyfills.ts",
+            "tsConfig": "projects/frontend/tsconfig.spec.json",
+            "karmaConfig": "projects/frontend/karma.conf.js",
+            "assets": [
+              "projects/frontend/src/favicon.ico",
+              "projects/frontend/src/assets"
+            ],
+            "styles": [
+              "projects/frontend/src/styles.css"
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
             ],
             "scripts": []
           }
@@ -100,9 +174,15 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
+<<<<<<< HEAD
               "tsconfig.app.json",
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
+=======
+              "projects/frontend/tsconfig.app.json",
+              "projects/frontend/tsconfig.spec.json",
+              "projects/frontend/e2e/tsconfig.json"
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
             ],
             "exclude": [
               "**/node_modules/**"
@@ -112,17 +192,35 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
+<<<<<<< HEAD
             "protractorConfig": "e2e/protractor.conf.js",
             "devServerTarget": "plan2win:serve"
           },
           "configurations": {
             "production": {
               "devServerTarget": "plan2win:serve:production"
+=======
+            "protractorConfig": "projects/frontend/e2e/protractor.conf.js",
+            "devServerTarget": "frontend:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "frontend:serve:production"
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
             }
           }
         }
       }
+<<<<<<< HEAD
     }
   },
   "defaultProject": "plan2win"
 }
+=======
+    }},
+  "cli": {
+    "analytics": "65ed6bd3-b66d-4068-8760-59ccb29b48f9"
+  },
+  "defaultProject": "frontend"
+}
+>>>>>>> a91beaa9bf407c11847702158a9eb45b12456148
