@@ -1,5 +1,7 @@
+import { AuthService } from './services/auth.service';
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { User } from './classes/user';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +9,18 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
-  constructor(private toastr:ToastrService){
-    this.toastr.success("Success");
+
+  user: User;
+
+  constructor(
+    private toastr: ToastrService,
+    private authService: AuthService
+    ) {
+      this.authService.user.subscribe(x => this.user = x);
+    // this.toastr.success('Success');
   }
 
+  // logout() {
+  //   this.authService.logout();
+  // }
 }
