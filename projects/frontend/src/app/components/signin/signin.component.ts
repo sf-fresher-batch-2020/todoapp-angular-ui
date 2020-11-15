@@ -23,8 +23,8 @@ export class SigninComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    if (this.authService.userValue) {
-      // this.router.navigate(['/']);
+    if (this.authService.getLoggedInUser()) {
+      this.router.navigate(['dashboard']);
     }
   }
 
@@ -51,6 +51,7 @@ export class SigninComponent implements OnInit {
         // console.log(data[0].mail);
         if (data[0].password === this.f.password.value) {
           console.log('success');
+          this.authService.storeLoginDetails(data[0]);
           this.router.navigate(['dashboard']);
         } else {
           console.log('password wrong');

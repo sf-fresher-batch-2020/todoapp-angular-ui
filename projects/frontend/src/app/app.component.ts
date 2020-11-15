@@ -19,8 +19,4 @@ export class AppComponent {
       this.authService.user.subscribe(x => this.user = x);
     // this.toastr.success('Success');
   }
-
-  // logout() {
-  //   this.authService.logout();
-  // }
 }
