@@ -30,33 +30,8 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  login(email, password) {
-    const url = this.apiUrl + '/users';
-    this.http.get(url).subscribe(res => {
-      this.users = res;
-      for (const obj of this.users) {
-        if (obj.mail === email){
-          console.log('email found');
-          if (obj.password === password) {
-            // this.storeLoginDetails(obj);
-            console.log('success');
-            return obj;
-          } else {
-            console.log('failed');
-            return null;
-          }
-        } else {
-          console.log('email does not matched!');
-          return null;
-        }
-      }
-    });
+  login(email): Observable<any> {
+    const url = this.apiUrl + '/users?mail=' + email;
+    return this.http.get(url);
   }
-
-  // logout() {
-  //   // remove user from local storage
-  //   localStorage.removeItem('user');
-  //   this.userSubject.next(null);
-  //   this.router.navigate(['/']);
-  // }
 }

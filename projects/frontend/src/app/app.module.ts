@@ -10,11 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    routingComponents
-  ],
+  declarations: [AppComponent, HeaderComponent, routingComponents],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -28,4 +24,4 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

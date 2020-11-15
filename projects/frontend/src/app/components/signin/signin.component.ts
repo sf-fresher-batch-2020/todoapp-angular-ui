@@ -13,6 +13,7 @@ export class SigninComponent implements OnInit {
 
   loginForm: FormGroup;
   loading = false;
+  userExists = false;
   submitted = false;
   returnUrl: string;
   res: any;
@@ -24,7 +25,7 @@ export class SigninComponent implements OnInit {
   ) {
     if (this.authService.userValue) {
       // this.router.navigate(['/']);
-  }
+    }
   }
 
   ngOnInit(): void {
@@ -39,23 +40,25 @@ export class SigninComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    if (this.loginForm.invalid){
+    if (this.loginForm.invalid) {
       return;
     }
 
     this.loading = true;
 
-    if (this.authService.login(this.f.email.value, this.f.password.value) != null) {
-      this.router.navigate(['dashboard']);
-    }
-
-    // this.authService.login(this.f.email.value, this.f.password.value).pipe(first()).subscribe(
-    //   data => {
-    //     console.log('success', data);
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   });
+    this.authService.login(this.f.email.value).subscribe(
+      data => {
+        // console.log(data[0].mail);
+        if (data[0].password === this.f.password.value) {
+          console.log('success');
+          this.router.navigate(['dashboard']);
+        } else {
+          console.log('password wrong');
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 
 }
