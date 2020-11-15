@@ -1,8 +1,8 @@
+import { User } from './../../classes/user';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
 import { ConfirmedValidator } from '../../confirmed.validator';
 
 @Component({
@@ -37,17 +37,26 @@ export class SignupComponent implements OnInit {
 
   get f() { return this.form.controls; }
 
+
+
   onSubmit() {
+
     this.submitted = true;
+
+    const generateUserId = Math.floor(100 + Math.random() * 900);
+
+    var new_user = new User(generateUserId, this.f.email.value, this.f.name.value, this.f.password.value);
 
     if (this.form.invalid) {
       return;
     }
 
     this.loading = true;
-    this.authService.register(this.form.value).pipe(first()).subscribe(
+
+    this.authService.register(new_user).subscribe(
       data => {
         console.log('success', data);
+        this.router.navigate(['signin']);
       },
       error => {
         console.log(error);

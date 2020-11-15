@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { User } from './../classes/user';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -18,7 +19,7 @@ export class AuthService {
     // console.log(this.apiUrl);
   }
 
-  register(user: User){
+  register(user: User): Observable<any> {
     const url = this.apiUrl + '/users';
     return this.http.post(url, user);
   }
