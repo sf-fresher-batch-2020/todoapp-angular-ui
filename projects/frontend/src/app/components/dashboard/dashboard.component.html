@@ -27,8 +27,7 @@
                 <form class="form-inline">
                     <div class="form-group mr-2">
                         <!-- select for sorting data -->
-                        <select class="form-control form-control-sm" id="sort_by"
-                            onchange="taskServiceObj.sortTasks(this.value)">
+                        <select class="form-control form-control-sm" id="sort_by" onchange="taskServiceObj.sortTasks(this.value)">
                             <option value="all">Sort By</option>
                             <option value="priority">Priority</option>
                             <option value="status">Status</option>
@@ -36,8 +35,7 @@
                     </div>
                     <div class="form-group mr-2">
                         <!-- select for filtering data -->
-                        <select class="form-control form-control-sm" id="filter_priority"
-                            onchange="taskServiceObj.filterTasks(this.value)">
+                        <select class="form-control form-control-sm" id="filter_priority" onchange="taskServiceObj.filterTasks(this.value)">
                             <option value="all">Filter</option>
                             <option value="high">High Priority</option>
                             <option value="medium">Medium Priority</option>
@@ -54,8 +52,7 @@
             </nav>
             <!-- progress bar showing the percentage of tasks completed -->
             <div class="progress m-3">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progress"
-                    aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: 10%">25%</div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progress" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: 10%">25%</div>
             </div>
             <!-- list of tasks -->
             <div class="row">
@@ -79,20 +76,17 @@
                                 <td>{{t.task}}</td>
                                 <td>{{t.priority}}</td>
                                 <td>{{t.status}}</td>
-                                <td><a type="button" class="btn text-info" data-toggle="modal" data-target="#viewtask"
-                                        (click)="taskServiceObj.openViewModal(t.tid)">
+                                <td><a type="button" class="btn text-info" data-toggle="modal" data-target="#viewtask" (click)="viewTask(t.id)">
                                         View
                                     </a>
                                 </td>
                                 <td>
-                                    <a type="button" class="btn text-primary" data-toggle="modal"
-                                        data-target="#edittask" (click)="taskServiceObj.openEditModal(t.tid)">
+                                    <a type="button" class="btn text-primary" data-toggle="modal" data-target="#edittask" (click)="editTask(t.id)">
                                         Edit
                                     </a>
                                 </td>
                                 <td>
-                                    <a type="button" class="btn text-danger" (click)="taskServiceObj.delete(t.tid)"
-                                        data-target="#deletetask">
+                                    <a type="button" class="btn text-danger" (click)="deleteTask(t.id)">
                                         Delete
                                     </a>
                                 </td>
@@ -124,26 +118,37 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form onsubmit="addTask()">
+                <form [formGroup]="addform" (ngSubmit)="addTask()">
                     <div class="form-group">
-                        <input class="form-control form-control-sm" type="text" name="task" id="task"
-                            placeholder="do something" required autofocus>
+                        <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" placeholder="do something" required autofocus>
+                        <div *ngIf="adding && af.task.errors" class="invalid-feedback">
+                            <div *ngIf="af.task.errors.required">This field is required</div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <select class="form-control form-control-sm" name='priority' id="priority">
+                        <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
                             <option value="high">High Priority</option>
                             <option value="medium">Medium Priority</option>
                             <option value="low">Low Priority</option>
                         </select>
+                        <div *ngIf="adding && af.priority.errors" class="invalid-feedback">
+                            <div *ngIf="af.priority.errors.required">This field is required</div>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <select class="form-control form-control-sm" name="status" id="status">
+                        <select class="form-control form-control-sm" formControlName="status" name="status" id="status">
                             <option value="upcoming">Upcoming</option>
                             <option value="ongoing">Ongoing</option>
                             <option value="completed">Completed</option>
                         </select>
+                        <div *ngIf="adding && af.status.errors" class="invalid-feedback">
+                            <div *ngIf="af.status.errors.required">This field is required</div>
+                        </div>
                     </div>
-                    <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                    <button class="btn btn-primary btn-sm" type="submit">
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                      Save
+                    </button>
                 </form>
             </div>
         </div>
@@ -160,25 +165,67 @@
             </div>
             <div class="modal-body">
                 <div id="editform">
-                    <!-- <form onsubmit="saveChangedTask()">
-                        <div>
-                            <input type="text" name="tid" id="tid" value="">
+                    <!-- <form [formGroup]="updateform" (ngSubmit)="updateTask()">
+                        <div class="form-group">
+                            <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="{{ task.task }}" required autofocus>
+                            <div *ngIf="updating && uf.task.errors" class="invalid-feedback">
+                                <div *ngIf="uf.task.errors.required">This field is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <select class="form-control form-control-sm" name='newpriority' id="newpriority">
-                            <option value="high">High Priority</option>
-                            <option value="medium">Medium Priority</option>
-                            <option value="low">Low Priority</option>
-                        </select>
+                            <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low" >Low Priority</option>
+                    </select>
+                            <div *ngIf="updating && uf.priority.errors" class="invalid-feedback">
+                                <div *ngIf="uf.priority.errors.required">This field is required</div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <select class="form-control form-control-sm" name="newstatus" id="newstatus">
-                            <option value="upcoming">Upcoming</option>
-                            <option value="ongoing">Ongoing</option>
-                            <option value="completed">Completed</option>
-                        </select>
+                            <select class="form-control form-control-sm" formControlName="status" name="status" id="status">
+                        <option value="upcoming" >Upcoming</option>
+                        <option value="ongoing" >Ongoing</option>
+                        <option value="completed" >Completed</option>
+                    </select>
+                            <div *ngIf="updating && uf.status.errors" class="invalid-feedback">
+                                <div *ngIf="uf.status.errors.required">This field is required</div>
+                            </div>
                         </div>
-                        <button class="btn btn-primary" data-dismiss="modal" type="submit">Save</button>
+                        <button type="submit" [disabled]="loading" class="btn btn-primary btn-sm">
+                  Save
+                </button>
+                    </form> -->
+                    <!-- <form [formGroup]="updateForm" (ngSubmit)="updateTask()">
+                        <div class="form-group">
+                            <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="${ this.task.task }" required autofocus>
+                            <div *ngIf="updating && uf.task.errors" class="invalid-feedback">
+                                <div *ngIf="uf.task.errors.required">This field is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
+                            <option value="high" ${this.isSelectedPriority('high')} >High Priority</option>
+                            <option value="medium" ${this.isSelectedPriority('medium')} >Medium Priority</option>
+                            <option value="low" ${this.isSelectedPriority('low')} >Low Priority</option>
+                        </select>
+                            <div *ngIf="updating && uf.priority.errors" class="invalid-feedback">
+                                <div *ngIf="uf.priority.errors.required">This field is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control form-control-sm" formControlName="status" name="status" id="status">
+                            <option value="upcoming" ${this.isSelectedStatus('upcoming')} >Upcoming</option>
+                            <option value="ongoing" ${this.isSelectedStatus('ongoing')} >Ongoing</option>
+                            <option value="completed" ${this.isSelectedStatus('completed')} >Completed</option>
+                        </select>
+                            <div *ngIf="updating && uf.status.errors" class="invalid-feedback">
+                                <div *ngIf="uf.status.errors.required">This field is required</div>
+                            </div>
+                        </div>
+                        <button type="submit" [disabled]="loading" class="btn btn-primary btn-sm">
+                      Save
+                    </button>
                     </form> -->
                 </div>
             </div>
@@ -197,6 +244,20 @@
             </div>
             <div class="modal-body">
                 <div id="viewform">
+                    <!-- <table>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ task.task }}</td>
+                        </tr>
+                        <tr>
+                            <th>Priority</th>
+                            <td>{{ task.priority }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{{ task.status }}</td>
+                        </tr>
+                    </table> -->
                 </div>
             </div>
         </div>
