@@ -19,14 +19,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private router: Router,
     private taskService: TaskService,
     private formBuilder: FormBuilder
     ) {
     this.apiUrl = environment.API_URL;
-    if (this.authService.getLoggedInUser() == null) {
-      this.router.navigate(['signin']);
-    }
+    // if (this.authService.getLoggedInUser() == null) {
+    //   this.router.navigate(['signin']);
+    // }
   }
 
   tasks;

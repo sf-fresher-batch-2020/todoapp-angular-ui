@@ -52,7 +52,8 @@ export class SigninComponent implements OnInit {
         if (data[0].password === this.f.password.value) {
           console.log('success');
           this.authService.storeLoginDetails(data[0]);
-          this.router.navigate(['dashboard']);
+          // this.router.navigate(['dashboard']);
+          window.location.href = '/dashboard';
         } else {
           console.log('password wrong');
         }
