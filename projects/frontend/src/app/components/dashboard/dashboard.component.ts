@@ -60,7 +60,6 @@ export class DashboardComponent implements OnInit {
     this.currentUser = this.authService.getLoggedInUser();
     this.listTasks();
   }
-
   viewTask(id) {
     this.taskService.getTask(id).subscribe(
       data => {
