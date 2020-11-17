@@ -37,10 +37,10 @@ export class DashboardComponent implements OnInit {
   updating = false;
   adding = false;
   task: Task;
+  etask: Task;
 
   ngOnInit(): void {
     this.getUser();
-    this.listTasks();
     this.addform = this.formBuilder.group({
       task: ['', [Validators.required]],
       priority: ['', [Validators.required]],
@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
 
   getUser() {
     this.currentUser = this.authService.getLoggedInUser();
+    this.listTasks();
   }
 
   viewTask(id) {
@@ -103,7 +104,7 @@ export class DashboardComponent implements OnInit {
   updateTask() {
     this.loading = true;
 
-    var edited_task = new Task(this.task.id, this.af.task.value, this.currentUser.id, this.af.priority.value, this.af.status.value);
+    var edited_task = new Task(this.task.id, this.uf.task.value, this.currentUser.id, this.uf.priority.value, this.uf.status.value);
 
     if (this.updateform.invalid) {
       return;
@@ -116,6 +117,8 @@ export class DashboardComponent implements OnInit {
       data => {
         console.log('updated', data);
         this.listTasks();
+        this.loading = false;
+        this.updating = false;
       }, error => {
         console.log(error);
       }
@@ -125,37 +128,7 @@ export class DashboardComponent implements OnInit {
   editTask(id) {
     this.taskService.getTask(id).subscribe(
       data => {
-        this.task = data;
-        document.querySelector('#editform').innerHTML =
-        `<form [formGroup]="updateform" (ngSubmit)="updateTask()">
-            <div class="form-group">
-                <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="${ this.task.task }" required autofocus>
-                <div *ngIf="updating && uf.task.errors" class="invalid-feedback">
-                    <div *ngIf="uf.task.errors.required">This field is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
-                    <option value="high" ${this.isSelectedPriority('high')} >High Priority</option>
-                    <option value="medium" ${this.isSelectedPriority('medium')} >Medium Priority</option>
-                    <option value="low" ${this.isSelectedPriority('low')} >Low Priority</option>
-                </select>
-                <div *ngIf="updating && uf.priority.errors" class="invalid-feedback">
-                    <div *ngIf="uf.priority.errors.required">This field is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <select class="form-control form-control-sm" formControlName="status" name="status" id="status">
-                    <option value="upcoming" ${this.isSelectedStatus('upcoming')} >Upcoming</option>
-                    <option value="ongoing" ${this.isSelectedStatus('ongoing')} >Ongoing</option>
-                    <option value="completed" ${this.isSelectedStatus('completed')} >Completed</option>
-                </select>
-                <div *ngIf="updating && uf.status.errors" class="invalid-feedback">
-                    <div *ngIf="uf.status.errors.required">This field is required</div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary btn-sm">Save</button>
-        </form>`;
+        this.etask = data;
       });
   }
 
@@ -189,6 +162,7 @@ export class DashboardComponent implements OnInit {
         // this.listTasks();
         this.ngOnInit();
         this.adding = false;
+        this.loading = false;
       }, error => {
         console.log(error);
       }

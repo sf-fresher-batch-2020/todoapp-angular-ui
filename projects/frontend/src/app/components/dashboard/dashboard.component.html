@@ -165,19 +165,20 @@
             </div>
             <div class="modal-body">
                 <div id="editform">
-                    <!-- <form [formGroup]="updateform" (ngSubmit)="updateTask()">
+                    <form [formGroup]="updateform" (ngSubmit)="updateTask()">
                         <div class="form-group">
-                            <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="{{ task.task }}" required autofocus>
+                            <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="etask.task" required autofocus>
                             <div *ngIf="updating && uf.task.errors" class="invalid-feedback">
                                 <div *ngIf="uf.task.errors.required">This field is required</div>
                             </div>
                         </div>
                         <div class="form-group">
+                            <!-- <input class="form-control form-control-sm" formControlName="priority" name='priority' id="priority" value="task.priority"> -->
                             <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
-                        <option value="high">High Priority</option>
-                        <option value="medium">Medium Priority</option>
-                        <option value="low" >Low Priority</option>
-                    </select>
+                            <option value="high">High Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="low">Low Priority</option>
+                            </select>
                             <div *ngIf="updating && uf.priority.errors" class="invalid-feedback">
                                 <div *ngIf="uf.priority.errors.required">This field is required</div>
                             </div>
@@ -193,9 +194,10 @@
                             </div>
                         </div>
                         <button type="submit" [disabled]="loading" class="btn btn-primary btn-sm">
+                          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                   Save
                 </button>
-                    </form> -->
+                    </form>
                     <!-- <form [formGroup]="updateForm" (ngSubmit)="updateTask()">
                         <div class="form-group">
                             <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="${ this.task.task }" required autofocus>
