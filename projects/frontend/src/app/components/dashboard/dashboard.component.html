@@ -70,7 +70,7 @@
                             </tr>
                         </thead>
                         <!-- renders from the backed -->
-                        <tbody id="taskslist">
+                        <tbody id="taskslist" *ngIf="tasks">
                             <tr *ngFor="let t of tasks; let i=index">
                                 <td>{{i+1}}</td>
                                 <td>{{t.task}}</td>
@@ -81,7 +81,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a type="button" class="btn text-primary" data-toggle="modal" data-target="#edittask" (click)="editTask(t.id)">
+                                    <a type="button" class="btn text-primary" data-toggle="modal" data-target="#edittask" (click)="editTask(t)">
                                         Edit
                                     </a>
                                 </td>
@@ -118,7 +118,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="addform" (ngSubmit)="addTask()">
+                <form [formGroup]="addForm" (ngSubmit)="addTask()">
                     <div class="form-group">
                         <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" placeholder="do something" required autofocus>
                         <div *ngIf="adding && af.task.errors" class="invalid-feedback">
@@ -164,16 +164,16 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="editform">
-                    <form [formGroup]="updateform" (ngSubmit)="updateTask()">
+                <div id="editform" *ngIf="eTask">
+                    {{eTask | json}}
+                    <form [formGroup]="updateForm" (ngSubmit)="updateTask()">
                         <div class="form-group">
-                            <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="etask.task" required autofocus>
+                            <input class="form-control form-control-sm" formControlName="task" type="text" value="{{eTask.task}}" required autofocus>
                             <div *ngIf="updating && uf.task.errors" class="invalid-feedback">
                                 <div *ngIf="uf.task.errors.required">This field is required</div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <!-- <input class="form-control form-control-sm" formControlName="priority" name='priority' id="priority" value="task.priority"> -->
                             <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
                             <option value="high">High Priority</option>
                             <option value="medium">Medium Priority</option>
@@ -198,37 +198,6 @@
                   Save
                 </button>
                     </form>
-                    <!-- <form [formGroup]="updateForm" (ngSubmit)="updateTask()">
-                        <div class="form-group">
-                            <input class="form-control form-control-sm" formControlName="task" type="text" name="task" id="task" value="${ this.task.task }" required autofocus>
-                            <div *ngIf="updating && uf.task.errors" class="invalid-feedback">
-                                <div *ngIf="uf.task.errors.required">This field is required</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
-                            <option value="high" ${this.isSelectedPriority('high')} >High Priority</option>
-                            <option value="medium" ${this.isSelectedPriority('medium')} >Medium Priority</option>
-                            <option value="low" ${this.isSelectedPriority('low')} >Low Priority</option>
-                        </select>
-                            <div *ngIf="updating && uf.priority.errors" class="invalid-feedback">
-                                <div *ngIf="uf.priority.errors.required">This field is required</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control form-control-sm" formControlName="status" name="status" id="status">
-                            <option value="upcoming" ${this.isSelectedStatus('upcoming')} >Upcoming</option>
-                            <option value="ongoing" ${this.isSelectedStatus('ongoing')} >Ongoing</option>
-                            <option value="completed" ${this.isSelectedStatus('completed')} >Completed</option>
-                        </select>
-                            <div *ngIf="updating && uf.status.errors" class="invalid-feedback">
-                                <div *ngIf="uf.status.errors.required">This field is required</div>
-                            </div>
-                        </div>
-                        <button type="submit" [disabled]="loading" class="btn btn-primary btn-sm">
-                      Save
-                    </button>
-                    </form> -->
                 </div>
             </div>
         </div>
@@ -246,20 +215,20 @@
             </div>
             <div class="modal-body">
                 <div id="viewform">
-                    <!-- <table>
+                    <table *ngIf="task">
                         <tr>
-                            <th>Description</th>
+                            <th>Description: </th>
                             <td>{{ task.task }}</td>
                         </tr>
                         <tr>
-                            <th>Priority</th>
+                            <th>Priority: </th>
                             <td>{{ task.priority }}</td>
                         </tr>
                         <tr>
-                            <th>Status</th>
+                            <th>Status: </th>
                             <td>{{ task.status }}</td>
                         </tr>
-                    </table> -->
+                    </table>
                 </div>
             </div>
         </div>

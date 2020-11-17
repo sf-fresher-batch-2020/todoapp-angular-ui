@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { Task } from './../classes/task';
 import { environment } from './../../environments/environment';
@@ -10,11 +11,14 @@ import { Injectable } from '@angular/core';
 export class TaskService {
 
   private apiUrl: string;
+  currentUser;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthService
   ) {
     this.apiUrl = environment.API_URL;
+    this.currentUser = this.authService.getLoggedInUser();
   }
 
   deleteTask(id): Observable<any> {
@@ -25,6 +29,11 @@ export class TaskService {
   addTask(task: Task): Observable<any> {
     const url = this.apiUrl + '/tasks';
     return this.http.post(url, task);
+  }
+
+  getAllTasks(): Observable<any> {
+    const url = this.apiUrl + '/tasks?createdBy=' + this.currentUser.id;
+    return this.http.get(url);
   }
 
   updateTask(id, task: Task): Observable<any> {

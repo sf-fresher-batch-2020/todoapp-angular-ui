@@ -1,11 +1,9 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TaskService } from './../../services/task.service';
 import { Task } from './../../classes/task';
-import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'projects/frontend/src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,84 +12,62 @@ import { environment } from 'projects/frontend/src/environments/environment';
 })
 export class DashboardComponent implements OnInit {
 
-  private apiUrl: string;
-
   constructor(
-    private http: HttpClient,
     private authService: AuthService,
     private taskService: TaskService,
-    private formBuilder: FormBuilder
-    ) {
-    this.apiUrl = environment.API_URL;
-    // if (this.authService.getLoggedInUser() == null) {
-    //   this.router.navigate(['signin']);
-    // }
-  }
+    private formBuilder: FormBuilder,
+    private toast: ToastrService
+    ) {}
 
   tasks;
   currentUser;
-  addform: FormGroup;
-  updateform: FormGroup;
+  addForm: FormGroup;
+  updateForm: FormGroup;
   loading = false;
   updating = false;
   adding = false;
-  task: Task;
-  etask: Task;
+  task;
+  eTask: Task;
 
   ngOnInit(): void {
     this.getUser();
-    this.addform = this.formBuilder.group({
+    this.addForm = this.formBuilder.group({
       task: ['', [Validators.required]],
       priority: ['', [Validators.required]],
       status: ['', [Validators.required]]
     });
-    this.updateform = this.formBuilder.group({
+    this.updateForm = this.formBuilder.group({
       task: ['', [Validators.required]],
       priority: ['', [Validators.required]],
       status: ['', [Validators.required]]
     });
   }
 
-  get af() { return this.addform.controls; }
-  get uf() { return this.updateform.controls; }
+  get af() { return this.addForm.controls; }
+  get uf() { return this.updateForm.controls; }
 
   getUser() {
     this.currentUser = this.authService.getLoggedInUser();
     this.listTasks();
   }
+
   viewTask(id) {
     this.taskService.getTask(id).subscribe(
       data => {
         this.task = data;
-        document.querySelector('#viewform').innerHTML =
-        `<table>
-            <tr>
-                <th>Description: </th>
-                <td>${ this.task.task }</td>
-            </tr>
-            <tr>
-                <th>Priority: </th>
-                <td>${ this.task.priority }</td>
-            </tr>
-            <tr>
-                <th>Status: </th>
-                <td>${ this.task.status }</td>
-            </tr>
-        </table>`;
     });
   }
 
   isSelectedPriority(p){
-    if (this.task.priority === p){
+    if (this.eTask.priority === p){
       // console.log(p);
       return 'selected';
     } else {
       return '';
     }
   }
-
   isSelectedStatus(s){
-    if (this.task.status === s){
+    if (this.eTask.status === s){
       // console.log(s);
       return 'selected';
     } else {
@@ -102,16 +78,16 @@ export class DashboardComponent implements OnInit {
   updateTask() {
     this.loading = true;
 
-    var edited_task = new Task(this.task.id, this.uf.task.value, this.currentUser.id, this.uf.priority.value, this.uf.status.value);
+    const editedTask = new Task(this.uf.task.value, this.currentUser.id, this.uf.priority.value, this.uf.status.value);
 
-    if (this.updateform.invalid) {
+    if (this.updateForm.invalid) {
       return;
     }
 
     this.updating = true;
 
     console.log('calling api');
-    this.taskService.updateTask(this.task.id , edited_task).subscribe(
+    this.taskService.updateTask(this.task.id , editedTask).subscribe(
       data => {
         console.log('updated', data);
         this.listTasks();
@@ -123,11 +99,11 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  editTask(id) {
-    this.taskService.getTask(id).subscribe(
-      data => {
-        this.etask = data;
-      });
+  editTask(task: Task) {
+    // this.taskService.getTask(id).subscribe(
+    //   data => {
+        this.eTask = task;
+      // });
   }
 
   deleteTask(id) {
@@ -135,8 +111,10 @@ export class DashboardComponent implements OnInit {
       data => {
         console.log('deleted', data);
         this.listTasks();
+        this.toast.success('task deleted!');
       }, error => {
         console.log(error);
+        this.toast.error(error);
       }
     );
   }
@@ -145,33 +123,35 @@ export class DashboardComponent implements OnInit {
 
     this.loading = true;
 
-    const generateUserId = Math.floor(100 + Math.random() * 900);
-    var new_task = new Task(generateUserId, this.af.task.value, this.currentUser.id, this.af.priority.value, this.af.status.value);
+    const newTask = new Task(this.af.task.value, this.currentUser.id, this.af.priority.value, this.af.status.value);
 
-    if (this.addform.invalid){
+    if (this.addForm.invalid){
       return;
     }
 
     this.adding = true;
 
-    this.taskService.addTask(new_task).subscribe(
+    this.taskService.addTask(newTask).subscribe(
       data => {
         console.log('success', data);
         // this.listTasks();
         this.ngOnInit();
         this.adding = false;
         this.loading = false;
+        this.toast.success('added task');
       }, error => {
         console.log(error);
+        this.toast.error(error);
       }
     );
   }
 
   listTasks() {
-    const url = this.apiUrl + '/tasks?createdBy=' + this.currentUser.id;
-    this.http.get(url).subscribe(res => {
-      this.tasks = res;
-    });
+    this.taskService.getAllTasks().subscribe(
+      data => {
+        this.tasks = data;
+      }
+    );
   }
 
 }
