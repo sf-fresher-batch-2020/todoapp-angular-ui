@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 })
 export class TaskService {
 
-  private apiUrl: String;
+  private apiUrl: string;
 
   constructor(
     private http: HttpClient

@@ -170,7 +170,7 @@ export class DashboardComponent implements OnInit {
   }
 
   listTasks() {
-    const url = this.apiUrl + '/tasks?created_by=' + this.currentUser.id;
+    const url = this.apiUrl + '/tasks?createdBy=' + this.currentUser.id;
     this.http.get(url).subscribe(res => {
       this.tasks = res;
     });
