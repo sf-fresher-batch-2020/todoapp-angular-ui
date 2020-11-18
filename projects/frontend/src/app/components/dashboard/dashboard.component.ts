@@ -51,38 +51,22 @@ export class DashboardComponent implements OnInit {
     this.listTasks();
   }
 
-  viewTask(id) {
-    this.taskService.getTask(id).subscribe(
-      data => {
-        this.task = data;
-    });
+  viewTask(task) {
+        this.task = task;
   }
-
-  isSelectedPriority(p){
-    if (this.eTask.priority === p){
-      // console.log(p);
-      return 'selected';
-    } else {
-      return '';
-    }
-  }
-  isSelectedStatus(s){
-    if (this.eTask.status === s){
-      // console.log(s);
-      return 'selected';
-    } else {
-      return '';
-    }
-  }
-
   updateTask() {
+
     this.loading = true;
+
+    console.log('editing');
 
     const editedTask = new Task(this.uf.task.value, this.currentUser.id, this.uf.priority.value, this.uf.status.value);
 
     if (this.updateForm.invalid) {
       return;
     }
+
+    console.log('updating');
 
     this.updating = true;
 
@@ -99,11 +83,11 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  editTask(id) {
-    this.taskService.getTask(id).subscribe(
-      data => {
-        this.eTask = data;
-      });
+  editTask(task) {
+    // this.taskService.getTask(id).subscribe(
+    //   data => {
+        this.eTask = task;
+      // });
   }
 
   deleteTask(id) {
