@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
   updating = false;
   adding = false;
   task;
-  eTask: Task;
+  eTask;
 
   ngOnInit(): void {
     this.getUser();
@@ -87,23 +87,23 @@ export class DashboardComponent implements OnInit {
     this.updating = true;
 
     console.log('calling api');
-    this.taskService.updateTask(this.task.id , editedTask).subscribe(
+    this.taskService.updateTask(this.eTask.id , editedTask).subscribe(
       data => {
         console.log('updated', data);
         this.listTasks();
-        this.loading = false;
-        this.updating = false;
+        this.toast.success('added edited!');
       }, error => {
-        console.log(error);
+        // console.log(error);
+        this.toast.error(error);
       }
     );
   }
 
-  editTask(task: Task) {
-    // this.taskService.getTask(id).subscribe(
-    //   data => {
-        this.eTask = task;
-      // });
+  editTask(id) {
+    this.taskService.getTask(id).subscribe(
+      data => {
+        this.eTask = data;
+      });
   }
 
   deleteTask(id) {
