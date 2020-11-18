@@ -1,8 +1,8 @@
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signin',
@@ -21,7 +21,8 @@ export class SigninComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toast: ToastrService
   ) {
     if (this.authService.getLoggedInUser()) {
       this.router.navigate(['dashboard']);
@@ -52,14 +53,18 @@ export class SigninComponent implements OnInit {
         if (data[0].password === this.f.password.value) {
           console.log('success');
           this.authService.storeLoginDetails(data[0]);
-          this.router.navigate(['dashboard']);
+          // this.router.navigate(['dashboard']);
+          window.location.href = '/dashboard';
+          this.toast.success('Logged in successfully');
+
         } else {
           console.log('password wrong');
+          this.toast.error('Wrong Password');
         }
       }, error => {
         console.log(error);
+        this.toast.error('Email not found!');
       }
     );
   }
-
 }
