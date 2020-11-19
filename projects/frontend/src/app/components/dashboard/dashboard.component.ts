@@ -19,7 +19,9 @@ export class DashboardComponent implements OnInit {
     private toast: ToastrService
     ) {}
 
+  allTasks;
   tasks;
+  filteredTasks;
   currentUser;
   addForm: FormGroup;
   updateForm: FormGroup;
@@ -28,6 +30,11 @@ export class DashboardComponent implements OnInit {
   adding = false;
   task;
   eTask;
+  // stats
+  all = 0;
+  ongoing = 0;
+  upcoming = 0;
+  completed = 0;
 
   ngOnInit(): void {
     this.getUser();
@@ -52,7 +59,70 @@ export class DashboardComponent implements OnInit {
   }
 
   viewTask(task) {
-        this.task = task;
+    this.task = task;
+  }
+
+  loadStats() {
+    this.all = 0;
+    this.ongoing = 0;
+    this.upcoming = 0;
+    this.completed = 0;
+    for (let task of this.tasks) {
+      this.all += 1;
+      if (task.status === 'ongoing') {
+        this.ongoing += 1;
+      } else if (task.status === 'upcoming') {
+        this.upcoming += 1;
+      } else if (task.status === 'completed') {
+        this.completed += 1;
+      }
+    }
+  }
+
+  filterTasks(val){
+
+    let tasksO = this.allTasks;
+
+    if (val === 'ongoing' || val === 'upcoming' || val === 'completed') {
+      this.tasks = tasksO.filter(task => task.status === val);
+    } else if (val === 'high' || val === 'medium' || val === 'low') {
+      this.tasks = tasksO.filter(task => task.priority === val);
+    } else {
+      this.listTasks();
+    }
+  }
+
+  sortTasks(val) {
+    let tasksO = this.allTasks;
+    if (val === 'priority') {
+      console.log('sort by priority');
+      this.tasks = tasksO.sort(this.sortByPriority);
+    } else if (val === 'status') {
+      console.log('sort by status');
+      this.tasks = tasksO.sort(this.sortByStatus);
+    } else {
+      this.listTasks();
+    }
+  }
+
+  sortByPriority(t1: Task, t2: Task) {
+    if (t1.priority > t2.priority) {
+      return 1;
+    } else if (t1.priority === t2.priority) {
+      return 0;
+    } else {
+      return -1;
+    }
+  }
+
+  sortByStatus(t1: Task, t2: Task) {
+    if (t1.status > t2.status) {
+      return 1;
+    } else if (t1.status === t2.status) {
+      return 0;
+    } else {
+      return -1;
+    }
   }
   updateTask() {
 
@@ -84,10 +154,7 @@ export class DashboardComponent implements OnInit {
   }
 
   editTask(task) {
-    // this.taskService.getTask(id).subscribe(
-    //   data => {
-        this.eTask = task;
-      // });
+    this.eTask = task;
   }
 
   deleteTask(id) {
@@ -130,10 +197,16 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  bindTasks(tasks) {
+    this.tasks = tasks;
+    this.loadStats();
+  }
+
   listTasks() {
     this.taskService.getAllTasks().subscribe(
       data => {
-        this.tasks = data;
+        this.allTasks = data;
+        this.bindTasks(this.allTasks);
       }
     );
   }

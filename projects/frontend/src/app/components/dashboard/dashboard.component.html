@@ -10,10 +10,10 @@
         <div class="col-lg-3 w-100">
             <ul class="list-group">
                 <li class="list-group-item active">Statistics</li>
-                <li class="list-group-item">All <span class="badge badge-primary" id="allnum">5</span></li>
-                <li class="list-group-item">Completed <span class="badge badge-success" id="comnum">2</span></li>
-                <li class="list-group-item">Ongoing <span class="badge badge-warning" id="ongng">2</span></li>
-                <li class="list-group-item">Upcoming <span class="badge badge-danger" id="upcmg">1</span></li>
+                <li class="list-group-item">All <span class="badge badge-primary" id="allnum">{{ all }}</span></li>
+                <li class="list-group-item">Completed <span class="badge badge-success" id="comnum">{{ completed }}</span></li>
+                <li class="list-group-item">Ongoing <span class="badge badge-warning" id="ongng">{{ ongoing }}</span></li>
+                <li class="list-group-item">Upcoming <span class="badge badge-danger" id="upcmg">{{ upcoming }}</span></li>
             </ul>
         </div>
         <!-- task list column -->
@@ -27,7 +27,7 @@
                 <form class="form-inline">
                     <div class="form-group mr-2">
                         <!-- select for sorting data -->
-                        <select class="form-control form-control-sm" id="sort_by" onchange="taskServiceObj.sortTasks(this.value)">
+                        <select class="form-control form-control-sm" id="sort_by" (change)="sortTasks($event.target.value)">
                             <option value="all">Sort By</option>
                             <option value="priority">Priority</option>
                             <option value="status">Status</option>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group mr-2">
                         <!-- select for filtering data -->
-                        <select class="form-control form-control-sm" id="filter_priority" onchange="taskServiceObj.filterTasks(this.value)">
+                        <select class="form-control form-control-sm" id="filter_priority" (change)="filterTasks($event.target.value)">
                             <option value="all">Filter</option>
                             <option value="high">High Priority</option>
                             <option value="medium">Medium Priority</option>
@@ -50,10 +50,6 @@
                         Task</button>
                 </form>
             </nav>
-            <!-- progress bar showing the percentage of tasks completed -->
-            <div class="progress m-3">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progress" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: 10%">25%</div>
-            </div>
             <!-- list of tasks -->
             <div class="row">
                 <div class="col-lg">
