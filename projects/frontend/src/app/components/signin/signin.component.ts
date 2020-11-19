@@ -49,7 +49,7 @@ export class SigninComponent implements OnInit {
 
     this.authService.login(this.f.email.value).subscribe(
       data => {
-        // console.log(data[0].mail);
+        // console.log(data[0].password);
         if (data[0].password === this.f.password.value) {
           console.log('success');
           this.authService.storeLoginDetails(data[0]);
@@ -59,10 +59,12 @@ export class SigninComponent implements OnInit {
 
         } else {
           console.log('password wrong');
+          this.loading = false;
           this.toast.error('Wrong Password');
         }
       }, error => {
         console.log(error);
+        this.loading = false;
         this.toast.error('Email not found!');
       }
     );

@@ -1,8 +1,9 @@
-import { User } from './../../classes/user';
+import { ToastrService } from 'ngx-toastr';
+import { ProfileService } from './../../services/profile.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmedValidator } from '../../confirmed.validator';
 
 @Component({
@@ -18,9 +19,10 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private profileService: ProfileService,
+    private toast: ToastrService
     ) {
   }
 
@@ -43,9 +45,9 @@ export class SignupComponent implements OnInit {
 
     this.submitted = true;
 
-    const generateUserId = Math.floor(100 + Math.random() * 900);
+    // const generateUserId = Math.floor(100 + Math.random() * 900);
 
-    var new_user = new User(generateUserId, this.f.email.value, this.f.name.value, this.f.password.value);
+    const newUser = { email: this.f.email.value, name: this.f.name.value, password: this.f.password.value};
 
     if (this.form.invalid) {
       return;
@@ -53,13 +55,22 @@ export class SignupComponent implements OnInit {
 
     this.loading = true;
 
-    this.authService.register(new_user).subscribe(
+    this.authService.register(newUser).subscribe(
       data => {
-        console.log('success', data);
-        this.router.navigate(['signin']);
+        console.log('success', data.id);
+        this.profileService.createProfile(data).subscribe(
+          data => {
+            this.toast.success('registered successfully!');
+            this.router.navigate(['signin']);
+          }, error => {
+            this.toast.error('profile creation failed!');
+            console.log(error);
+          }
+        );
       },
       error => {
         console.log(error);
+        this.toast.error('registration failed');
       });
   }
 

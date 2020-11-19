@@ -30,7 +30,7 @@ export class AuthService {
     localStorage.setItem('LOGGED_IN_USER', JSON.stringify({
       id: user.id,
       name: user.name,
-      email: user.mail
+      email: user.email
     }));
   }
 
@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   login(email): Observable<any> {
-    const url = this.apiUrl + '/users?mail=' + email;
+    const url = this.apiUrl + '/users?email=' + email;
     return this.http.get(url);
   }
 
@@ -49,7 +49,7 @@ export class AuthService {
     this.router.navigate(['signin']);
   }
 
-  register(user: User): Observable<any> {
+  register(user): Observable<any> {
     const url = this.apiUrl + '/users';
     return this.http.post(url, user);
   }
