@@ -9,51 +9,37 @@
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <img class="rounded mx-auto d-block" src="../assets/images/profile.jpg" height="200" alt="profile">
-                <div class="row justify-content-end">
-                    <!-- edit profile button -->
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#editprofile"
-                        onclick="profileServiceObj.openEditModal()">Edit Profile</button>
-                </div>
+                <button class="btn btn-warning" data-toggle="modal" data-target="#editprofile">Edit Profile</button>
                 <!-- profile data renders from backed -->
                 <div id="profileForm">
-                    <!-- <table class="table table-hover table-dark m-5">
-                        <tbody>
+                    <table class="table table-hover table-dark m-5">
+                        <!-- {{ currentUser | json }} -->
+                        <tbody *ngIf="currentUser && currentProfile">
                             <tr>
                                 <th scope="row">User Name</th>
-                                <td>Mark</td>
+                                <td>{{ currentUser.name }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Email</th>
-                                <td>Mark</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Full Name</th>
-                                <td>Jacob</td>
+                                <td>{{ currentUser.email }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Company</th>
-                                <td>@twitter</td>
+                                <td>{{ currentProfile.company }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Github Username</th>
+                                <td>{{ currentProfile.gitname }}</td>
                             </tr>
                         </tbody>
-                    </table> -->
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <!-- toast -->
-    <div class="toast" data-autohide="false" style="position: absolute; top: 10%; right: 2%; width: 250px;">
-        <div id="thead" class="toast-header">
-            <strong id="thtext" class="mr-auto"></strong>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div id="message" class="toast-body bg-light"></div>
-    </div>
 </div>
 
-
-<!-- edit profile modal -->
+<!-- edit model -->
 <div class="modal fade" id="editprofile" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -62,7 +48,19 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="editform">
+                <div *ngIf="currentProfile">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <input class="form-control form-control-sm" type="text" formControlName="company" [(ngModel)]="currentProfile.company">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control form-control-sm" type="text" formControlName="gitname" [(ngModel)]="currentProfile.gitname">
+                        </div>
+                        <button class="btn btn-primary btn-sm" type="submit">
+                          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                          Save
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

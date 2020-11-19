@@ -38,7 +38,7 @@ export class TaskService {
 
   updateTask(id, task: Task): Observable<any> {
     const url = this.apiUrl + '/tasks/' + id;
-    console.log('api loading!');
+    // console.log('api loading!');
     return this.http.put(url, task);
   }
 

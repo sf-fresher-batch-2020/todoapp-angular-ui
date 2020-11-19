@@ -54,8 +54,8 @@ export class DashboardComponent implements OnInit {
   get uf() { return this.updateForm.controls; }
 
   getUser() {
-    this.currentUser = this.authService.getLoggedInUser();
-    this.listTasks();
+      this.currentUser = this.authService.getLoggedInUser();
+      this.listTasks();
   }
 
   viewTask(task) {
