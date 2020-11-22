@@ -16,19 +16,20 @@ export class ProfileService {
   }
 
   createProfile(user): Observable<any> {
+    // console.log(user);
     const url = this.apiUrl + '/profiles';
-    let profile = { userId: user.id, company: '', gitname: ''  };
+    const profile = { userId: user.id, company: 'edit to add' };
     return this.http.post(url, profile);
   }
 
   getProfile(id): Observable<any> {
-    const url = this.apiUrl + '/profiles?userId=' + id;
+    const url = this.apiUrl + '/profiles/myProfile';
     console.log(url);
-    return this.http.get(url);
+    return this.http.post(url, id);
   }
 
-  updateProfile(id, profile): Observable<any> {
-    const url = this.apiUrl + '/profiles/' + id;
-    return this.http.put(url, profile);
+  updateProfile(profile): Observable<any> {
+    const url = this.apiUrl + '/profiles/update';
+    return this.http.post(url, profile);
   }
 }

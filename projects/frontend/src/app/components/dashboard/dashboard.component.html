@@ -69,7 +69,7 @@
                         <tbody id="taskslist" *ngIf="tasks">
                             <tr *ngFor="let t of tasks; let i=index">
                                 <td>{{i+1}}</td>
-                                <td>{{t.task}}</td>
+                                <td>{{t.description}}</td>
                                 <td>{{t.priority}}</td>
                                 <td>{{t.status}}</td>
                                 <td><a type="button" class="btn text-info" data-toggle="modal" data-target="#viewtask" (click)="viewTask(t)">
@@ -123,7 +123,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control form-control-sm" formControlName="priority" name='priority' id="priority">
-                            <option value="high">High Priority</option>
+                            <option value="high" [selected]=true>High Priority</option>
                             <option value="medium">Medium Priority</option>
                             <option value="low">Low Priority</option>
                         </select>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control form-control-sm" formControlName="status" name="status" id="status">
-                            <option value="upcoming">Upcoming</option>
+                            <option value="upcoming" [selected]=true>Upcoming</option>
                             <option value="ongoing">Ongoing</option>
                             <option value="completed">Completed</option>
                         </select>
@@ -164,7 +164,7 @@
                     <!-- {{eTask | json}} -->
                     <form [formGroup]="updateForm" (ngSubmit)="updateTask()">
                         <div class="form-group">
-                            <input class="form-control form-control-sm" formControlName="task" type="text" [(ngModel)]="eTask.task" required autofocus>
+                            <input class="form-control form-control-sm" formControlName="task" type="text" [(ngModel)]="eTask.description" required autofocus>
                             <div *ngIf="updating && uf.task.errors" class="invalid-feedback">
                                 <div *ngIf="uf.task.errors.required">This field is required</div>
                             </div>
@@ -214,7 +214,7 @@
                     <table *ngIf="task">
                         <tr>
                             <th>Description: </th>
-                            <td>{{ task.task }}</td>
+                            <td>{{ task.description }}</td>
                         </tr>
                         <tr>
                             <th>Priority: </th>
