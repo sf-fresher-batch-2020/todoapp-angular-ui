@@ -29,31 +29,33 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.currentUser.id);
-    this.profileService.getProfile(this.currentUser.id).subscribe(
+    this.profileService.getProfile({id: this.currentUser.id}).subscribe(
       data => {
         this.currentProfile = data[0];
       }
     );
 
     this.form = this.formBuilder.group({
-      company: [''],
-      gitname: ['']
+      company: ['']
     });
   }
 
   get f() { return this.form.controls; }
 
   onSubmit() {
+
     this.submitted = true;
 
-    const profile = { userId: this.currentUser.id, company: this.f.company.value, gitname: this.f.gitname.value };
+    const profile = {
+      profileId: this.currentProfile.id
+    };
 
     this.loading = true;
 
-    this.profileService.updateProfile(this.currentProfile.id, profile).subscribe(
+    this.profileService.updateProfile(profile).subscribe(
       data => {
-        this.ngOnInit();
         this.toast.success('profile updated');
+        this.ngOnInit();
       }, error => {
         this.toast.error('update failed');
       }

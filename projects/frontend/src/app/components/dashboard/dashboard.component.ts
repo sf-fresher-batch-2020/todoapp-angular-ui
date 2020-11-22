@@ -124,13 +124,17 @@ export class DashboardComponent implements OnInit {
       return -1;
     }
   }
+
   updateTask() {
-
     this.loading = true;
-
     console.log('editing');
 
-    const editedTask = new Task(this.uf.task.value, this.currentUser.id, this.uf.priority.value, this.uf.status.value);
+    const editedTask = {
+      id: this.eTask.id,
+      task: this.uf.task.value,
+      priority: this.uf.priority.value,
+      status: this.uf.status.value
+    };
 
     if (this.updateForm.invalid) {
       return;
@@ -141,11 +145,11 @@ export class DashboardComponent implements OnInit {
     this.updating = true;
 
     console.log('calling api');
-    this.taskService.updateTask(this.eTask.id , editedTask).subscribe(
+    this.taskService.updateTask(editedTask).subscribe(
       data => {
         console.log('updated', data);
         this.listTasks();
-        this.toast.success('added edited!');
+        this.toast.success('task edited!');
       }, error => {
         // console.log(error);
         this.toast.error(error);
@@ -157,12 +161,13 @@ export class DashboardComponent implements OnInit {
     this.eTask = task;
   }
 
-  deleteTask(id) {
-    this.taskService.deleteTask(id).subscribe(
+  deleteTask(tid) {
+    const task = {id: tid};
+    this.taskService.deleteTask(task).subscribe(
       data => {
-        console.log('deleted', data);
-        this.listTasks();
+        // console.log('deleted', data);
         this.toast.success('task deleted!');
+        this.listTasks();
       }, error => {
         console.log(error);
         this.toast.error(error);
@@ -203,10 +208,14 @@ export class DashboardComponent implements OnInit {
   }
 
   listTasks() {
-    this.taskService.getAllTasks().subscribe(
+    const userId = { uid: this.currentUser.id };
+    this.taskService.getAllTasks(userId).subscribe(
       data => {
+        // console.log(data);
         this.allTasks = data;
         this.bindTasks(this.allTasks);
+      }, error => {
+        console.log(error);
       }
     );
   }

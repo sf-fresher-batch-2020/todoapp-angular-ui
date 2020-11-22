@@ -39,8 +39,9 @@ export class AuthService {
   }
 
   login(email): Observable<any> {
-    const url = this.apiUrl + '/users?email=' + email;
-    return this.http.get(url);
+    console.log(email);
+    const url = this.apiUrl + '/users/login';
+    return this.http.post(url, email);
   }
 
   logout(){
@@ -50,6 +51,7 @@ export class AuthService {
   }
 
   register(user): Observable<any> {
+    // console.log(user);
     const url = this.apiUrl + '/users';
     return this.http.post(url, user);
   }

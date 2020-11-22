@@ -47,13 +47,14 @@ export class SigninComponent implements OnInit {
 
     this.loading = true;
 
-    this.authService.login(this.f.email.value).subscribe(
+    const user = { email: this.f.email.value };
+
+    this.authService.login(user).subscribe(
       data => {
-        // console.log(data[0].password);
         if (data[0].password === this.f.password.value) {
           console.log('success');
+          console.log(data[0]);
           this.authService.storeLoginDetails(data[0]);
-          // this.router.navigate(['dashboard']);
           window.location.href = '/dashboard';
           this.toast.success('Logged in successfully');
 

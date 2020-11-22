@@ -22,28 +22,28 @@ export class TaskService {
   }
 
   deleteTask(id): Observable<any> {
-    const url = this.apiUrl + '/tasks/' + id;
-    return this.http.delete(url);
+    console.log(id);
+    const url = this.apiUrl + '/tasks/delete';
+    return this.http.post(url, id);
   }
 
   addTask(task: Task): Observable<any> {
+    console.log(task);
     const url = this.apiUrl + '/tasks';
     return this.http.post(url, task);
   }
 
-  getAllTasks(): Observable<any> {
-    const url = this.apiUrl + '/tasks?createdBy=' + this.currentUser.id;
-    return this.http.get(url);
+  getAllTasks(userId): Observable<any> {
+    const url = this.apiUrl + '/tasks/all';
+    // console.log(url);
+    // console.log(typeof userId);
+    return this.http.post(url, userId);
   }
 
-  updateTask(id, task: Task): Observable<any> {
-    const url = this.apiUrl + '/tasks/' + id;
-    // console.log('api loading!');
-    return this.http.put(url, task);
-  }
-
-  getTask(id): Observable<any> {
-    const url = this.apiUrl + '/tasks/' + id;
-    return this.http.get(url);
+  updateTask(task): Observable<any> {
+    // console.log(task);
+    const url = this.apiUrl + '/tasks/update';
+    console.log('api loading!');
+    return this.http.post(url, task);
   }
 }
