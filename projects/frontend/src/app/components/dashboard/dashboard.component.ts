@@ -23,13 +23,15 @@ export class DashboardComponent implements OnInit {
   tasks;
   filteredTasks;
   currentUser;
+  viewingTask;
+  eTask;
+
   addForm: FormGroup;
   updateForm: FormGroup;
   loading = false;
   updating = false;
   adding = false;
-  task;
-  eTask;
+
   // stats
   all = 0;
   ongoing = 0;
@@ -59,7 +61,7 @@ export class DashboardComponent implements OnInit {
   }
 
   viewTask(task) {
-    this.task = task;
+    this.viewingTask = task;
   }
 
   loadStats() {
@@ -79,27 +81,30 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  filterTasks(val){
+  getCompleted() {
+    return (Math.floor((this.completed / this.all) * 100));
+  }
 
-    let tasksO = this.allTasks;
+  filterTasks(val){
+    let tempTasks = this.allTasks;
 
     if (val === 'ongoing' || val === 'upcoming' || val === 'completed') {
-      this.tasks = tasksO.filter(task => task.status === val);
+      this.tasks = tempTasks.filter(task => task.status === val);
     } else if (val === 'high' || val === 'medium' || val === 'low') {
-      this.tasks = tasksO.filter(task => task.priority === val);
+      this.tasks = tempTasks.filter(task => task.priority === val);
     } else {
       this.listTasks();
     }
   }
 
   sortTasks(val) {
-    let tasksO = this.allTasks;
+    let tempTasks = this.allTasks;
     if (val === 'priority') {
       console.log('sort by priority');
-      this.tasks = tasksO.sort(this.sortByPriority);
+      this.tasks = tempTasks.sort(this.sortByPriority);
     } else if (val === 'status') {
       console.log('sort by status');
-      this.tasks = tasksO.sort(this.sortByStatus);
+      this.tasks = tempTasks.sort(this.sortByStatus);
     } else {
       this.listTasks();
     }

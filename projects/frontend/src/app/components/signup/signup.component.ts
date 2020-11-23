@@ -24,6 +24,9 @@ export class SignupComponent implements OnInit {
     private profileService: ProfileService,
     private toast: ToastrService
     ) {
+      if (this.authService.getLoggedInUser()) {
+        this.router.navigate(['dashboard']);
+      }
   }
 
   ngOnInit(): void {
@@ -45,8 +48,6 @@ export class SignupComponent implements OnInit {
 
     this.submitted = true;
 
-    // const generateUserId = Math.floor(100 + Math.random() * 900);
-
     const newUser = { email: this.f.email.value, name: this.f.name.value, password: this.f.password.value};
 
     if (this.form.invalid) {
@@ -57,7 +58,6 @@ export class SignupComponent implements OnInit {
 
     this.authService.register(newUser).subscribe(
       data => {
-        // console.log('success', data.id);
         this.profileService.createProfile(data).subscribe(
           data => {
             this.toast.success('registered successfully!');

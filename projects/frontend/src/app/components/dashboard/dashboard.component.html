@@ -50,6 +50,10 @@
                         Task</button>
                 </form>
             </nav>
+            <!-- progress bar showing the percentage of tasks completed -->
+            <div class="progress m-3">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progress" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" [style.width]="getCompleted() + '%'">{{ getCompleted() + '%' }}</div>
+            </div>
             <!-- list of tasks -->
             <div class="row">
                 <div class="col-lg">
@@ -92,16 +96,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- toast for showing error or success -->
-    <div class="toast" data-autohide="false" style="position: absolute; top: 10%; right: 2%; width: 250px;">
-        <div id="thead" class="toast-header">
-            <strong id="thtext" class="mr-auto"></strong>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div id="message" class="toast-body bg-light"></div>
     </div>
 </div>
 
@@ -211,18 +205,18 @@
             </div>
             <div class="modal-body">
                 <div id="viewform">
-                    <table *ngIf="task">
+                    <table *ngIf="viewingTask">
                         <tr>
                             <th>Description: </th>
-                            <td>{{ task.description }}</td>
+                            <td>{{ viewingTask.description }}</td>
                         </tr>
                         <tr>
                             <th>Priority: </th>
-                            <td>{{ task.priority }}</td>
+                            <td>{{ viewingTask.priority }}</td>
                         </tr>
                         <tr>
                             <th>Status: </th>
-                            <td>{{ task.status }}</td>
+                            <td>{{ viewingTask.status }}</td>
                         </tr>
                     </table>
                 </div>
