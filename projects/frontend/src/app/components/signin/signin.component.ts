@@ -47,26 +47,16 @@ export class SigninComponent implements OnInit {
 
     this.loading = true;
 
-    const user = { email: this.f.email.value };
+    const user = { email: this.f.email.value, password: this.f.password.value };
 
     this.authService.login(user).subscribe(
       data => {
-        if (data[0].password === this.f.password.value) {
-          console.log('success');
-          console.log(data[0]);
-          this.authService.storeLoginDetails(data[0]);
-          window.location.href = '/dashboard';
-          this.toast.success('Logged in successfully');
-
-        } else {
-          console.log('password wrong');
-          this.loading = false;
-          this.toast.error('Wrong Password');
-        }
+        this.authService.storeLoginDetails(data[0]);
+        window.location.href = '/dashboard';
       }, error => {
         console.log(error);
         this.loading = false;
-        this.toast.error('Email not found!');
+        this.toast.error('check credentials');
       }
     );
   }

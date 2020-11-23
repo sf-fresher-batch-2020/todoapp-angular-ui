@@ -6,9 +6,6 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0 nav-menu-1">
             <li class="nav-item">
-                <a class="nav-link btn" routerLink="/home" data-toggle="collapse" *ngIf="!loggedInUser">Home</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link btn" routerLink="/dashboard" data-toggle="collapse" *ngIf="loggedInUser">Dashboard</a>
             </li>
         </ul>
