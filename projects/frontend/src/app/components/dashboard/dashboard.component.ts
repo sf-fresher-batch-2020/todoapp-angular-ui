@@ -213,7 +213,7 @@ export class DashboardComponent implements OnInit {
   }
 
   listTasks() {
-    const userId = { uid: this.currentUser.id };
+    const userId = this.currentUser.id;
     this.taskService.getAllTasks(userId).subscribe(
       data => {
         // console.log(data);

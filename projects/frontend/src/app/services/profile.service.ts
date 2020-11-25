@@ -23,8 +23,7 @@ export class ProfileService {
   }
 
   getProfile(id): Observable<any> {
-    const url = this.apiUrl + '/profiles/myProfile';
-    console.log(url);
+    const url = this.apiUrl + '/profiles/' + id;
     return this.http.post(url, id);
   }
 
