@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.currentUser.id);
-    this.profileService.getProfile({id: this.currentUser.id}).subscribe(
+    this.profileService.getProfile(this.currentUser.id).subscribe(
       data => {
         this.currentProfile = data[0];
       }
