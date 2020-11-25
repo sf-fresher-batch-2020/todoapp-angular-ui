@@ -100,10 +100,8 @@ export class DashboardComponent implements OnInit {
   sortTasks(val) {
     let tempTasks = this.allTasks;
     if (val === 'priority') {
-      console.log('sort by priority');
       this.tasks = tempTasks.sort(this.sortByPriority);
     } else if (val === 'status') {
-      console.log('sort by status');
       this.tasks = tempTasks.sort(this.sortByStatus);
     } else {
       this.listTasks();
@@ -132,8 +130,6 @@ export class DashboardComponent implements OnInit {
 
   updateTask() {
     this.loading = true;
-    console.log('editing');
-
     const editedTask = {
       id: this.eTask.id,
       task: this.uf.task.value,
@@ -145,18 +141,12 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    console.log('updating');
-
     this.updating = true;
-
-    console.log('calling api');
     this.taskService.updateTask(editedTask).subscribe(
       data => {
-        console.log('updated', data);
         this.listTasks();
         this.toast.success('task edited!');
       }, error => {
-        // console.log(error);
         this.toast.error(error);
       }
     );
@@ -170,11 +160,9 @@ export class DashboardComponent implements OnInit {
     const task = {id: tid};
     this.taskService.deleteTask(task).subscribe(
       data => {
-        // console.log('deleted', data);
         this.toast.success('task deleted!');
         this.listTasks();
       }, error => {
-        console.log(error);
         this.toast.error(error);
       }
     );
@@ -194,14 +182,11 @@ export class DashboardComponent implements OnInit {
 
     this.taskService.addTask(newTask).subscribe(
       data => {
-        console.log('success', data);
-        // this.listTasks();
         this.ngOnInit();
         this.adding = false;
         this.loading = false;
         this.toast.success('added task');
       }, error => {
-        console.log(error);
         this.toast.error(error);
       }
     );
@@ -216,11 +201,8 @@ export class DashboardComponent implements OnInit {
     const userId = { uid: this.currentUser.id };
     this.taskService.getAllTasks(userId).subscribe(
       data => {
-        // console.log(data);
         this.allTasks = data;
         this.bindTasks(this.allTasks);
-      }, error => {
-        console.log(error);
       }
     );
   }
