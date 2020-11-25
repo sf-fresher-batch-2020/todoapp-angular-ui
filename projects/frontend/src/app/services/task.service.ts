@@ -34,10 +34,8 @@ export class TaskService {
   }
 
   getAllTasks(userId): Observable<any> {
-    const url = this.apiUrl + '/tasks/all';
-    // console.log(url);
-    // console.log(typeof userId);
-    return this.http.post(url, userId);
+    const url = this.apiUrl + '/tasks/' + userId;
+    return this.http.get(url, userId);
   }
 
   updateTask(task): Observable<any> {
