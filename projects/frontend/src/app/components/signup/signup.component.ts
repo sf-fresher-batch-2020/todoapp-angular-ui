@@ -64,12 +64,10 @@ export class SignupComponent implements OnInit {
             this.router.navigate(['signin']);
           }, error => {
             this.toast.error('profile creation failed!');
-            console.log(error);
           }
         );
       },
       error => {
-        console.log(error);
         this.toast.error('registration failed');
       });
   }

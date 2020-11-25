@@ -39,19 +39,16 @@ export class AuthService {
   }
 
   login(email): Observable<any> {
-    console.log(email);
     const url = this.apiUrl + '/users/login';
     return this.http.post(url, email);
   }
 
   logout(){
     localStorage.removeItem('LOGGED_IN_USER');
-    console.log('logged out');
     this.router.navigate(['signin']);
   }
 
   register(user): Observable<any> {
-    // console.log(user);
     const url = this.apiUrl + '/users';
     return this.http.post(url, user);
   }

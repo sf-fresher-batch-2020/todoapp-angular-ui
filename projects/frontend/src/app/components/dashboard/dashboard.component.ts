@@ -198,10 +198,14 @@ export class DashboardComponent implements OnInit {
   }
 
   listTasks() {
+    this.loading = true;
     this.taskService.getAllTasks(this.currentUser.id).subscribe(
       data => {
+        this.loading = false;
         this.allTasks = data;
         this.bindTasks(this.allTasks);
+      }, error => {
+        this.loading = false;
       }
     );
   }

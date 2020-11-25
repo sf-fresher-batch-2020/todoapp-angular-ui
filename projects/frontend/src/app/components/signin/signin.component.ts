@@ -54,7 +54,6 @@ export class SigninComponent implements OnInit {
         this.authService.storeLoginDetails(data[0]);
         window.location.href = '/dashboard';
       }, error => {
-        console.log(error);
         this.loading = false;
         this.toast.error('check credentials');
       }

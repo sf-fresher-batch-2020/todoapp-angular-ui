@@ -70,6 +70,7 @@
                             </tr>
                         </thead>
                         <!-- renders from the backed -->
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                         <tbody id="taskslist" *ngIf="tasks">
                             <tr *ngFor="let t of tasks; let i=index">
                                 <td>{{i+1}}</td>
