@@ -22,13 +22,11 @@ export class TaskService {
   }
 
   deleteTask(id): Observable<any> {
-    console.log(id);
     const url = this.apiUrl + '/tasks/delete';
     return this.http.post(url, id);
   }
 
   addTask(task: Task): Observable<any> {
-    console.log(task);
     const url = this.apiUrl + '/tasks';
     return this.http.post(url, task);
   }
@@ -39,9 +37,7 @@ export class TaskService {
   }
 
   updateTask(task): Observable<any> {
-    // console.log(task);
     const url = this.apiUrl + '/tasks/update';
-    console.log('api loading!');
     return this.http.post(url, task);
   }
 }
