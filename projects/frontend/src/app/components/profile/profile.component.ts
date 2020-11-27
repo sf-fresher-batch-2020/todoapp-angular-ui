@@ -46,7 +46,8 @@ export class ProfileComponent implements OnInit {
     this.submitted = true;
 
     const profile = {
-      profileId: this.currentProfile.id
+      profileId: this.currentProfile.id,
+      company: this.f.company.value
     };
 
     this.loading = true;
@@ -54,9 +55,11 @@ export class ProfileComponent implements OnInit {
     this.profileService.updateProfile(profile).subscribe(
       data => {
         this.toast.success('profile updated');
+        this.loading = false;
         this.ngOnInit();
       }, error => {
         this.toast.error('update failed');
+        this.loading = false;
       }
     );
   }
