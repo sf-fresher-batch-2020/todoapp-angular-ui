@@ -52,4 +52,14 @@ export class AuthService {
     const url = this.apiUrl + '/users';
     return this.http.post(url, user);
   }
+
+  sendMail(user): Observable<any> {
+    const url = this.apiUrl + '/users/mail';
+    return this.http.post(url, user);
+  }
+
+  getUser(id): Observable<any> {
+    const url = this.apiUrl + '/users/' + id;
+    return this.http.get(url);
+  }
 }

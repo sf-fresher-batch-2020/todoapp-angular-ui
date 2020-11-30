@@ -58,6 +58,11 @@ export class SignupComponent implements OnInit {
 
     this.authService.register(newUser).subscribe(
       data => {
+        this.authService.getUser(data.id).subscribe(
+          data => {
+            this.authService.sendMail(data[0]).subscribe();
+          }
+        );
         this.profileService.createProfile(data).subscribe(
           data => {
             this.toast.success('registered successfully!');
@@ -68,7 +73,7 @@ export class SignupComponent implements OnInit {
         );
       },
       error => {
-        this.toast.error('registration failed');
+        this.toast.error(error);
       });
   }
 
